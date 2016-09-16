@@ -4,7 +4,6 @@ class PolyTreeNode
     @value = value
     @parent = nil
     @children = []
-
   end
 
   def parent
@@ -43,6 +42,19 @@ class PolyTreeNode
     return nil if par == nil
     #@parent.add_child(self) if !@children.include?(self)
     @parent.children << self unless @parent.children.include?(self)
+  end
+
+  def dfs(target_value)
+    return self if @value == target_value
+    @children.each do |child|
+      answer = child.dfs(target_value)
+      return answer if answer
+    end
+    nil
+  end
+
+  def bfs(target_value)
+
   end
 
 end # exit PolyTreeNode class
