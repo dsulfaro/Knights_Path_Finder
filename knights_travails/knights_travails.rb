@@ -3,6 +3,8 @@ require_relative 'poly_tree_node'
 
 class KnightPathFinder
 
+  attr_accessor :main_root
+
   def self.valid_moves(pos)
     possible_moves = []
     x, y = pos
@@ -21,7 +23,6 @@ class KnightPathFinder
     @start = start
     @visited_positions = [start]
     @move_tree = build_move_tree
-
   end
 
   def new_move_positions(pos)
@@ -34,12 +35,9 @@ class KnightPathFinder
     main_root = nil
     have_root = false
     queue = [PolyTreeNode.new(@visited_positions[0])]
+    main_root = queue[0]
     until queue.empty?
       root = queue.shift
-      if have_root == false
-        main_root = root
-        have_root = true
-      end
       moves = new_move_positions(root.value)
       moves.each do |move|
         child = PolyTreeNode.new(move)
@@ -47,11 +45,10 @@ class KnightPathFinder
       end
       queue += root.children
     end
-    @start = main_root
   end
 
   def find_path(end_pos)
-    end_node = @start.bfs(end_pos)
+    end_node = main_root.bfs(end_pos)
     trace_path_back(end_node)
   end
 
@@ -65,4 +62,4 @@ class KnightPathFinder
     path.reverse
   end
 
-end
+end # exit KnightPathFinder class
