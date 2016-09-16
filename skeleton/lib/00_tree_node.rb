@@ -30,6 +30,7 @@ class PolyTreeNode
   end
 
   def remove_child(child)
+    raise "Node is not a child" if !@children.include?(child)
     @children.delete(child) if child != nil
     child.parent = nil
   end
@@ -37,6 +38,7 @@ class PolyTreeNode
 
   def parent=(par)
     #@parent.remove_child(self) if !@parent.nil? && @parent != par
+    @parent.children.delete(self) if !@parent.nil? && @parent != par
     @parent = par
     return nil if par == nil
     #@parent.add_child(self) if !@children.include?(self)
